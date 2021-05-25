@@ -1,8 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_covid_dashboard_ui/config/palette.dart';
 import 'package:flutter_covid_dashboard_ui/config/styles.dart';
 import 'package:flutter_covid_dashboard_ui/data/data.dart';
+import 'package:flutter_covid_dashboard_ui/screens/OrderForm.dart';
+import 'package:flutter_covid_dashboard_ui/screens/medicineStats.dart';
+import 'package:flutter_covid_dashboard_ui/screens/myOrders.dart';
+import 'package:flutter_covid_dashboard_ui/screens/orderStatsScreen.dart';
 import 'package:flutter_covid_dashboard_ui/widgets/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _country = 'USA';
+  String _country = 'IN';
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'COVID-19',
+                  'COVID-RAKSHAK',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 25.0,
@@ -54,80 +60,80 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 CountryDropdown(
-                  countries: ['CN', 'FR', 'IN', 'IT', 'UK', 'USA'],
+                  countries: [ 'IN',],
                   country: _country,
                   onChanged: (val) => setState(() => _country = val),
                 ),
               ],
             ),
             SizedBox(height: screenHeight * 0.03),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Are you feeling sick?',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: screenHeight * 0.01),
-                Text(
-                  'If you feel sick with any COVID-19 symptoms, please call or text us immediately for help',
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 15.0,
-                  ),
-                ),
-                SizedBox(height: screenHeight * 0.03),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    FlatButton.icon(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 20.0,
-                      ),
-                      onPressed: () {},
-                      color: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      icon: const Icon(
-                        Icons.phone,
-                        color: Colors.white,
-                      ),
-                      label: Text(
-                        'Call Now',
-                        style: Styles.buttonTextStyle,
-                      ),
-                      textColor: Colors.white,
-                    ),
-                    FlatButton.icon(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 20.0,
-                      ),
-                      onPressed: () {},
-                      color: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      icon: const Icon(
-                        Icons.chat_bubble,
-                        color: Colors.white,
-                      ),
-                      label: Text(
-                        'Send SMS',
-                        style: Styles.buttonTextStyle,
-                      ),
-                      textColor: Colors.white,
-                    ),
-                  ],
-                ),
-              ],
-            )
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: <Widget>[
+            //     Text(
+            //       'Are you feeling sick?',
+            //       style: const TextStyle(
+            //         color: Colors.white,
+            //         fontSize: 22.0,
+            //         fontWeight: FontWeight.w600,
+            //       ),
+            //     ),
+            //     SizedBox(height: screenHeight * 0.01),
+            //     Text(
+            //       'If you feel sick with any COVID-19 symptoms, please call or text us immediately for help',
+            //       style: const TextStyle(
+            //         color: Colors.white70,
+            //         fontSize: 15.0,
+            //       ),
+            //     ),
+            //     SizedBox(height: screenHeight * 0.03),
+            //     Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: <Widget>[
+            //         FlatButton.icon(
+            //           padding: const EdgeInsets.symmetric(
+            //             vertical: 10.0,
+            //             horizontal: 20.0,
+            //           ),
+            //           onPressed: () {},
+            //           color: Colors.red,
+            //           shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(30.0),
+            //           ),
+            //           icon: const Icon(
+            //             Icons.phone,
+            //             color: Colors.white,
+            //           ),
+            //           label: Text(
+            //             'Call Now',
+            //             style: Styles.buttonTextStyle,
+            //           ),
+            //           textColor: Colors.white,
+            //         ),
+            //         FlatButton.icon(
+            //           padding: const EdgeInsets.symmetric(
+            //             vertical: 10.0,
+            //             horizontal: 20.0,
+            //           ),
+            //           onPressed: () {},
+            //           color: Colors.blue,
+            //           shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(30.0),
+            //           ),
+            //           icon: const Icon(
+            //             Icons.chat_bubble,
+            //             color: Colors.white,
+            //           ),
+            //           label: Text(
+            //             'Send SMS',
+            //             style: Styles.buttonTextStyle,
+            //           ),
+            //           textColor: Colors.white,
+            //         ),
+            //       ],
+            //     ),
+            //   ],
+            // )
           ],
         ),
       ),
@@ -171,12 +177,138 @@ class _HomeScreenState extends State<HomeScreen> {
                       ))
                   .toList(),
             ),
+            Container(
+                    padding: EdgeInsets.symmetric( vertical: 40),
+        
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white,
+                    ),
+                    child: Column(children: [
+                      // mainCard(context),
+                      SizedBox(height: 40),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: (){
+                                 Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => VaccineOrderForm()
+                                    ));
+                              },
+                              child: regularCard('assets/upload.svg', 'Upload Data')),
+                            InkWell(
+                                onTap: (){
+                                 Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => MyOrders()
+                                    ));
+                              },
+                              child: regularCard(
+                                  'assets/virus.svg', 'MyOrders'),
+                            ),
+                            regularCard('assets/upload.svg', 'Delivery'),
+                          ]),
+                      SizedBox(height: 20),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: (){
+                                 Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => MedicineOrderStats()
+                                    ));
+                              },
+                              child: regularCard('assets/trend.svg', 'Stastics')),
+                            InkWell(
+                              onTap: (){
+                                    Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => OrderStatsScreen()
+                                    ));
+                              },
+                              child: regularCard('assets/facemask.svg', 'Demand Stats')),
+                            regularCard('assets/phone.svg', 'Raw Material'),
+                          ])
+                          ,
+                          
+                    ]),
+                  ),
           ],
         ),
       ),
     );
   }
-
+ Container mainCard(context) {
+    return Container(
+        // padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.grey[100],
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey[300], offset: Offset.zero, blurRadius: 20)
+          ],
+        ),
+        child: Row(children: [
+          Container(
+            alignment: Alignment.bottomCenter,
+            width: (MediaQuery.of(context).size.width - 80) / 2,
+            height: 140,
+            child: Image.asset(
+              "assets/doctor.png",
+            ),
+          ),
+          SizedBox(
+            width: (MediaQuery.of(context).size.width - 80) / 2,
+            height: 150,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('Symptoms \nChecker',
+                  style: textStyle(24, FontWeight.w800, Colors.black)),
+              SizedBox(height: 16),
+              Text('Based on common \symptoms',
+                  style: textStyle(16, FontWeight.w800, Colors.grey[600]))
+            ]),
+          ),
+        ]));
+  }
+  SizedBox regularCard(String iconName, String cardLabel) {
+    return SizedBox(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.grey[100],
+            // boxShadow: [
+            //   BoxShadow(
+            //       color: Colors.grey[300], offset: Offset.zero, blurRadius: 20)
+            // ],
+          ),
+          child: SvgPicture.asset(iconName, width: 50, color:  Palette.primaryColor,),
+        ),
+        SizedBox(height: 5),
+        Text(cardLabel,
+            textAlign: TextAlign.center,
+            style: textStyle(16, FontWeight.w500, Colors.black))
+      ]),
+    );
+  }
+    TextStyle textStyle(double size, FontWeight fontWeight, Color colorName) =>
+      TextStyle(
+        color: colorName,
+        fontSize: size,
+        fontWeight: fontWeight,
+      );
   SliverToBoxAdapter _buildYourOwnTest(double screenHeight) {
     return SliverToBoxAdapter(
       child: Container(
@@ -187,6 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(10.0),
         height: screenHeight * 0.15,
         decoration: BoxDecoration(
+         color: Color(0xFFAD9FE4),
           gradient: LinearGradient(
             colors: [Color(0xFFAD9FE4), Palette.primaryColor],
           ),

@@ -4,32 +4,36 @@ class StatsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.25,
+      height: MediaQuery.of(context).size.height * 0.28,
       child: Column(
         children: <Widget>[
-          Flexible(
-            child: Row(
-              children: <Widget>[
-                _buildStatCard('Total Cases', '1.81 M', Colors.orange),
-                _buildStatCard('Deaths', '105 K', Colors.red),
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              _buildStatCard('Total Orders', '1.81 M', Color(0xffFF8A5E)),
+              _buildStatCard('Total Delivered', '105 K', Color(0xff4FE5B8)),
+            ],
           ),
-          Flexible(
-            child: Row(
-              children: <Widget>[
-                _buildStatCard('Recovered', '391 K', Colors.green),
-                _buildStatCard('Active', '1.31 M', Colors.lightBlue),
-                _buildStatCard('Critical', 'N/A', Colors.purple),
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              _buildStatCard('L', '391 K', Colors.blueGrey),
+              _buildStatCard('Med-1', '1.31 M', Colors.blueGrey),
+              _buildStatCard('Med-2', 'N/A', Colors.blueGrey),
+          
+            ],
           ),
+           Row(
+             children: <Widget>[
+               _buildStatCard('Recovered', '391 K',Color(0xff4FE5B8)),
+               _buildStatCard('Active', '1.31 M', Color(0xffA66DFF)),
+               _buildStatCard('Critical', 'N/A', Color(0xffFF8A5E)),
+             ],
+           ),
         ],
       ),
     );
   }
 
-  Expanded _buildStatCard(String title, String count, MaterialColor color) {
+  Expanded _buildStatCard(String title, String count,  color) {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.all(8.0),
