@@ -3,55 +3,185 @@ import 'package:flutter/material.dart';
 import 'package:flutter_covid_dashboard_ui/config/palette.dart';
 import 'package:flutter_covid_dashboard_ui/config/styles.dart';
 import 'package:flutter_covid_dashboard_ui/data/data.dart';
+import 'package:flutter_covid_dashboard_ui/widgets/donutPieChartAnim.dart';
 import 'package:flutter_covid_dashboard_ui/widgets/waveEffect.dart';
 import 'package:flutter_covid_dashboard_ui/widgets/widgets.dart';
 import 'package:flutter_covid_dashboard_ui/util/sizeEffect.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+var data = [
+  new DataPerItem('Home', 35, Colors.greenAccent),
+  new DataPerItem('Food & Drink', 25, Colors.yellow),
+  new DataPerItem('Hotel & Restaurant', 24, Colors.indigo),
+  new DataPerItem('Travelling', 40, Colors.pinkAccent),
+];
 
-class OrderStatsScreen extends StatefulWidget {
+var series = [
+  new charts.Series(
+    domainFn: (DataPerItem clickData, _) => clickData.name,
+    measureFn: (DataPerItem clickData, _) => clickData.percent,
+    colorFn: (DataPerItem clickData, _) => clickData.color,
+    id: 'Item',
+    data: data,
+  ),
+];
+
+class VillageWiseOrders extends StatefulWidget {
+   VillageWiseOrders({Key key, @required this.VillageName}) : super(key: key);
+  final String VillageName;
   @override
-  _OrderStatsScreenState createState() => _OrderStatsScreenState();
+  _VillageWiseOrdersState createState() => _VillageWiseOrdersState();
 }
 
-class _OrderStatsScreenState extends State<OrderStatsScreen> {
+class _VillageWiseOrdersState extends State<VillageWiseOrders> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:  AppBar(
       backgroundColor: Palette.primaryColor,
-      appBar: CustomAppBar(),
+      elevation: 0.0,
+      title: Text(widget.VillageName),
+   
+    ),
       body: CustomScrollView(
         physics: ClampingScrollPhysics(),
         slivers: <Widget>[
-          _buildHeader(),
-          _buildRegionTabBar(),
-          _buildStatsTabBar(),
+         _buildHeader(),
+        //  _buildRegionTabBar(),
+         // _buildStatsTabBar(),
+          // SliverPadding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          //   sliver: SliverToBoxAdapter(
+          //     child: StatsGrid(),
+          //   ),
+          // ),
           SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.only(top: 0.0),
             sliver: SliverToBoxAdapter(
-              child: StatsGrid(),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.only(top: 20.0),
-            sliver: SliverToBoxAdapter(
-              child: CovidBarChart(covidCases: covidUSADailyNewCases),
+              child: ChatDisp(),
             ),
           ),
 
-          // districtCard(),
+          districtCard(),
 
         ],
       ),
     );
   }
 
+
+Widget ChatDisp(){
+     final _media = MediaQuery.of(context).size;
+  return Column(
+    children: [
+      RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Orders Stats",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Varela",
+                      ),
+                    ),
+                 
+                  ],
+                ),
+              ),
+               Container(
+            margin: EdgeInsets.only(
+              top: 15,
+              right: 20,
+            ),
+            height:
+                screenAwareSize(_media.longestSide <= 775 ? 180 : 130, context),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(6),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade100,
+                  blurRadius: 6,
+                  spreadRadius: 10,
+                )
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  height: 180,
+                  width: 160,
+                  child: DonutPieChart(
+                    series,
+                    animate: true,
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 15,
+                      ),
+                      donutCard(Colors.indigo, "L- 290"),
+                      donutCard(Colors.yellow, "K-10"),
+                      donutCard(Colors.greenAccent, "F-4"),
+                      donutCard(Colors.pinkAccent, "D-1"),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
+    ],
+  );
+         
+}
+
+  Widget donutCard(Color color, String text) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(
+            left: 0,
+            top: 18,
+            right: 10,
+          ),
+          height: 15,
+          width: 15,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+        ),
+        Text(
+          text,
+          style: TextStyle(
+            color: Colors.grey,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+            inherit: true,
+          ),
+          overflow: TextOverflow.ellipsis,
+          softWrap: true,
+        )
+      ],
+    );
+  }
   SliverPadding _buildHeader() {
     return SliverPadding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(5.0),
       sliver: SliverToBoxAdapter(
         child: Text(
-          'Order Stastics',
+          '',
           style: const TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 25.0,
             fontWeight: FontWeight.bold,
           ),
@@ -81,7 +211,7 @@ class _OrderStatsScreenState extends State<OrderStatsScreen> {
             labelColor: Colors.black,
             unselectedLabelColor: Colors.white,
             tabs: <Widget>[
-              Text('My State'),
+              Text('Andhra Pradesh'),
               Text('Other States'),
             ],
             onTap: (index) {},
@@ -120,30 +250,84 @@ class _OrderStatsScreenState extends State<OrderStatsScreen> {
       sliver: SliverToBoxAdapter(
         child: Column(
           children: [
-            Text(
-              'District-Wise Orders',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 25.0,
-                fontWeight: FontWeight.bold,
+             RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Mandal-Wise Stats",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Varela",
+                      ),
+                    ),
+                 
+                  ],
+                ),
               ),
-            ),
             Column(
               children: [
-                     vaweCard(
+              
+          InkWell(
+               onTap: (){
+                            //      Navigator.push(
+                            // context,
+                            // MaterialPageRoute(
+                            //     builder: (BuildContext context) => VillageWiseOrders(VillageName: 'ONGOLE')
+                            //         ));
+                              },
+            child: vaweCard(
+              context,
+              "Narkur",
+              "L-200 | P-6K  | K-10K | D-0",
+              100,
+              1,
+              Colors.grey.shade100,
+              Color(0xFF716cff),
+            ),
+          ),
+                 vaweCard(
             context,
-            "Oldage Pension Not Received",
-            "Esclated To Incharge",
+            "Pottlapudi",
+            "L-10 | P-30 | K-100 | D-1000",
             200,
             1,
             Colors.grey.shade100,
             Color(0xFF716cff),
           ),
-                check('SPSR Nellore'),
-                check('ONGOLE'),
-                check('TIRUPATI'),
-                check('CUDDAPAH'),
-                check('KRISHNA'),
+          vaweCard(
+            context,
+            "Maipadu",
+            "L-93 | P-53 | K-76| D-34",
+            200,
+            1,
+            Colors.grey.shade100,
+            Color(0xFF716cff),
+          ),
+          vaweCard(
+            context,
+            "Krishna Patnam",
+            "L-32 | P-1 | K-45 | D-45",
+            200,
+            1,
+            Colors.grey.shade100,
+            Color(0xFF716cff),
+          ),
+          vaweCard(
+            context,
+            "Allipuram",
+            "L-32 | P-12 | K-87 | D-45",
+            200,
+            1,
+            Colors.grey.shade100,
+            Color(0xFF716cff),
+          ),
+                // check('SPSR Nellore'),
+                // check('ONGOLE'),
+                // check('TIRUPATI'),
+                // check('CUDDAPAH'),
+                // check('KRISHNA'),
               ],
             )
           ],
@@ -273,8 +457,8 @@ class _OrderStatsScreenState extends State<OrderStatsScreen> {
       Color fillColor, Color bgColor) {
     return Container(
       margin: EdgeInsets.only(
-        top: 5,
-        right: 20,
+        top: 8,
+        right: 8,
       ),
       padding: EdgeInsets.only(left: 15),
       height: screenAwareSize(80, context),

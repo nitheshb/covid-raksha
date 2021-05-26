@@ -539,13 +539,13 @@ SizedBox(height: 16,),
                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                 Stat(7, 'MED-1'),
+                 Stat(7, 'L'),
                     SizedBox(width: 6.0),
-                   Stat(2, 'MED-2'),
+                   Stat(2, 'K'),
                     SizedBox(width: 6.0),
-                  Stat(2, 'MED-3'),
+                  Stat(2, 'F'),
                     SizedBox(width: 6.0),
-                  Stat(7, 'MED-4')
+                  Stat(7, 'D')
                   ],
                 )
           ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_covid_dashboard_ui/screens/regionWiseOrders.dart';
 
 class StatsGrid extends StatelessWidget {
   @override
@@ -9,25 +10,35 @@ class StatsGrid extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              _buildStatCard('Total Orders', '1.81 M', Color(0xffFF8A5E)),
+              InkWell(
+                onTap: (){
+                    Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => RegionWiseOrders
+                                ()
+                                    ));
+                },
+                child: _buildStatCard('Total Orders', '1.81 M', Color(0xffFF8A5E))),
               _buildStatCard('Total Delivered', '105 K', Color(0xff4FE5B8)),
             ],
           ),
           Row(
             children: <Widget>[
-              _buildStatCard('L', '391 K', Colors.blueGrey),
-              _buildStatCard('Med-1', '1.31 M', Colors.blueGrey),
-              _buildStatCard('Med-2', 'N/A', Colors.blueGrey),
+              _buildStatCard('L', '391', Colors.greenAccent),
+              _buildStatCard('P', '131', Colors.greenAccent),
+              _buildStatCard('K', 'N/A', Colors.pinkAccent),
+              _buildStatCard('M', '2K', Colors.pinkAccent),
           
             ],
           ),
-           Row(
-             children: <Widget>[
-               _buildStatCard('Recovered', '391 K',Color(0xff4FE5B8)),
-               _buildStatCard('Active', '1.31 M', Color(0xffA66DFF)),
-               _buildStatCard('Critical', 'N/A', Color(0xffFF8A5E)),
-             ],
-           ),
+          //  Row(
+          //    children: <Widget>[
+          //      _buildStatCard('Recovered', '391 K',Color(0xff4FE5B8)),
+          //      _buildStatCard('Active', '1.31 M', Color(0xffA66DFF)),
+          //      _buildStatCard('Critical', 'N/A', Color(0xffFF8A5E)),
+          //    ],
+          //  ),
         ],
       ),
     );

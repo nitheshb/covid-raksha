@@ -498,30 +498,30 @@ class _StepperBodyState extends State<StepperBody> {
 
         print("Age: ${data.age}");
 
-        showDialog(
-            context: context,
-            child: new AlertDialog(
-              title: new Text("Details"),
-              //content: new Text("Hello World"),
-              content: new SingleChildScrollView(
-                child: new ListBody(
-                  children: <Widget>[
-                    new Text("Name : " + data.name),
-                    new Text("Phone : " + data.phone),
+        // showDialog(
+        //     context: context,
+        //     child: new AlertDialog(
+        //       title: new Text("Details"),
+        //       //content: new Text("Hello World"),
+        //       content: new SingleChildScrollView(
+        //         child: new ListBody(
+        //           children: <Widget>[
+        //             new Text("Name : " + data.name),
+        //             new Text("Phone : " + data.phone),
 
-                    new Text("Age : " + data.age),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                new FlatButton(
-                  child: new Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ));
+        //             new Text("Age : " + data.age),
+        //           ],
+        //         ),
+        //       ),
+        //       actions: <Widget>[
+        //         new FlatButton(
+        //           child: new Text('OK'),
+        //           onPressed: () {
+        //             Navigator.of(context).pop();
+        //           },
+        //         ),
+        //       ],
+        //     ));
       }
     }
 
