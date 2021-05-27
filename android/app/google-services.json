@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "950989856370",
+    "project_id": "covid-raksha-84754",
+    "storage_bucket": "covid-raksha-84754.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950989856370:android:01705feb9da6301a1b6ceb",
+        "android_client_info": {
+          "package_name": "com.example.flutter_covid_dashboard_ui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950989856370-eilr8bptp33urq35op2es4takngg0llp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_covid_dashboard_ui",
+            "certificate_hash": "2a6398c460ace3d134a78c31f6ec0ba8006c513b"
+          }
+        },
+        {
+          "client_id": "950989856370-u5q0a7gtgbtclkdcoku0rs1nqof9s7h9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDffsg2ffJQBdLNNJHkjcJWHLHFkYtsQGw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950989856370-u5q0a7gtgbtclkdcoku0rs1nqof9s7h9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

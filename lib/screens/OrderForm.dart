@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_covid_dashboard_ui/config/palette.dart';
+import 'package:flutter_covid_dashboard_ui/models/state.dart';
+import 'package:flutter_covid_dashboard_ui/util/firebaseQueries.dart';
 import 'package:flutter_covid_dashboard_ui/util/formValidator.dart';
+import 'package:flutter_covid_dashboard_ui/util/statefulWidget.dart';
 //import 'package:validate/validate.dart';  //for validation
 
 class VaccineOrderForm extends StatefulWidget {
@@ -30,6 +33,7 @@ class MyData {
 }
 
 class AddFamilyMode extends State<VaccineOrderForm> {
+  StateModel appState;
   @override
   void initState() {
     super.initState();
@@ -69,6 +73,7 @@ class _StepperBodyState extends State<StepperBody> {
   final TextEditingController _referralCode = new TextEditingController();
 
   static MyData data = new MyData();
+  StateModel appState;
 
   @override
   void initState() {
@@ -121,6 +126,9 @@ class _StepperBodyState extends State<StepperBody> {
       formState.save();
 
       print("Phone: ${data.phone}");
+
+      //  save data in orders table and
+      //  order stats table
 
       // showDialog(
       //     context: context,
@@ -316,7 +324,6 @@ class _StepperBodyState extends State<StepperBody> {
                       onSaved: (String value) {
                         data.sex = value;
                       },
-                    
                       decoration: InputDecoration(
                         labelText: 'Sex',
                         icon: const Icon(Icons.face),
@@ -341,7 +348,7 @@ class _StepperBodyState extends State<StepperBody> {
                 new Container(
                   child: new Flexible(
                     child: new TextFormField(
-                           keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.number,
                       autofocus: false,
                       onSaved: (String value) {
                         data.oxoReading = value;
@@ -362,12 +369,11 @@ class _StepperBodyState extends State<StepperBody> {
                 new Container(
                   child: new Flexible(
                     child: new TextFormField(
-                           keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.text,
                       autofocus: false,
                       onSaved: (String value) {
                         data.healthStatus = value;
                       },
-             
                       decoration: InputDecoration(
                         labelText: 'Health Staus',
                         icon: const Icon(Icons.calendar_today),
@@ -383,12 +389,11 @@ class _StepperBodyState extends State<StepperBody> {
                 new Container(
                   child: new Flexible(
                     child: new TextFormField(
-                           keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.text,
                       autofocus: false,
                       onSaved: (String value) {
                         data.otherHealthStaus = value;
                       },
-                     
                       decoration: InputDecoration(
                         labelText: 'Other Health Issues',
                         icon: const Icon(Icons.face),
@@ -404,10 +409,10 @@ class _StepperBodyState extends State<StepperBody> {
                 new Container(
                   child: new Flexible(
                     child: new TextFormField(
-                           keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.text,
                       autofocus: false,
                       onSaved: (String value) {
-                        data.covidStatus= value;
+                        data.covidStatus = value;
                       },
                       // validator: Validator.validatePhoneNumber,
                       decoration: InputDecoration(
@@ -425,10 +430,10 @@ class _StepperBodyState extends State<StepperBody> {
                 new Container(
                   child: new Flexible(
                     child: new TextFormField(
-                           keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.text,
                       autofocus: false,
                       onSaved: (String value) {
-                        data.effectedData= value;
+                        data.effectedData = value;
                       },
                       decoration: InputDecoration(
                         labelText: 'Effected from',
@@ -451,24 +456,22 @@ class _StepperBodyState extends State<StepperBody> {
         content: Column(
           children: <Widget>[
             TextFormField(
-                   keyboardType: TextInputType.text,
-                      autofocus: false,
-                      onSaved: (String value) {
-                        data.vaccineType= value;
-                      },
+              keyboardType: TextInputType.text,
+              autofocus: false,
+              onSaved: (String value) {
+                data.vaccineType = value;
+              },
               decoration: InputDecoration(
                 labelText: 'Vaccination Type',
                 icon: const Icon(Icons.local_hospital),
               ),
             ),
             TextFormField(
-                   keyboardType: TextInputType.number,
-                      autofocus: false,
-                      onSaved: (String value) {
-                        data.vaccineDose= value;
-
-                        
-                      },
+              keyboardType: TextInputType.number,
+              autofocus: false,
+              onSaved: (String value) {
+                data.vaccineDose = value;
+              },
               decoration: InputDecoration(
                 labelText: 'No of does Completed',
                 icon: const Icon(Icons.linear_scale),
@@ -480,6 +483,21 @@ class _StepperBodyState extends State<StepperBody> {
 
   @override
   Widget build(BuildContext context) {
+    appState = StateWidget.of(context).state;
+    var uId, sname, dname, mname, vname, gsname, sId, dId, mId, vId, gsId;
+    try {
+      uId = appState?.firebaseUserAuth?.uid ?? '';
+      sname = appState?.locationName['sname'] ?? 'Pick a place';
+      dname = appState?.locationName['dname'] ?? 'Pick a place';
+      mname = appState?.locationName['mname'] ?? 'Pick a place';
+      vname = appState?.locationName['vname'] ?? 'Pick a place';
+      gsname = appState?.locationName['gsname'] ?? 'Pick a place';
+      sId = appState?.locationName['sId'] ?? 'Pick a place';
+      dId = appState?.locationName['dId'] ?? 'Pick a place';
+      mId = appState?.locationName['mId'] ?? 'Pick a place';
+      vId = appState?.locationName['vId'] ?? 'Pick a place';
+      gsId = appState?.locationName['gsId'] ?? 'Pick a place';
+    } catch (e) {}
     void showSnackBarMessage(String message,
         [MaterialColor color = Colors.red]) {
       Scaffold.of(context)
@@ -497,6 +515,39 @@ class _StepperBodyState extends State<StepperBody> {
         print("Phone: ${data.phone}");
 
         print("Age: ${data.age}");
+
+        //  get volunteer uid; ==> uId
+        //  save date ==> DateTime.now().millisecondsSinceEpoch
+        //
+        var medType = "N";
+        var sevirity = "5";
+
+        if (data.covidStatus == 'positive') {
+          if (int.parse(data.oxoReading) > 95) {
+            medType = "P";
+            sevirity = "4";
+          } else if (int.parse(data.oxoReading) <= 95 &&
+              int.parse(data.oxoReading) >= 90) {
+            medType = "L";
+            sevirity = "3";
+          } else if (int.parse(data.oxoReading) < 90 &&
+              int.parse(data.oxoReading) >= 83) {
+            medType = "F";
+            sevirity = "2";
+          } else if (int.parse(data.oxoReading) < 90 &&
+              int.parse(data.oxoReading) >= 83) {
+            medType = "D";
+            sevirity = "1";
+          }
+        }
+        ;
+
+        DbQuery.instanace.createNewMedOrder(
+            uId, data,  sname, dname, mname, vname, gsname, sId, dId, mId, vId, gsId, medType, sevirity );
+
+        //  save data to orders along with update values to db
+
+        // decide and set filter for sevirity
 
         // showDialog(
         //     context: context,
@@ -576,7 +627,7 @@ class _StepperBodyState extends State<StepperBody> {
               style: new TextStyle(color: Colors.white),
             ),
             // onPressed: _submitDetails,
-            onPressed: () => _showReportDialog(),
+            onPressed: () => _submitDetails(),
             color: Palette.primaryColor,
           ),
         ),

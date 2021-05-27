@@ -1,8 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_covid_dashboard_ui/screens/screens.dart';
+import 'package:flutter_covid_dashboard_ui/screens/splashScreen.dart';
+import 'package:flutter_covid_dashboard_ui/util/statefulWidget.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  StateWidget stateWidget = new StateWidget(
+    child: new MyApp(),
+  );
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(new GetMaterialApp(home: stateWidget));
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +33,10 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BottomNavScreen(),
+      home: 
+      (FirebaseAuth.instance.currentUser != null)
+          ? BottomNavScreen()
+          : SplashScreen(),
     );
   }
 }

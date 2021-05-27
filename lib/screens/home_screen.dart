@@ -1,12 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_covid_dashboard_ui/config/palette.dart';
 import 'package:flutter_covid_dashboard_ui/config/styles.dart';
 import 'package:flutter_covid_dashboard_ui/data/data.dart';
+import 'package:flutter_covid_dashboard_ui/models/state.dart';
 import 'package:flutter_covid_dashboard_ui/screens/OrderForm.dart';
 import 'package:flutter_covid_dashboard_ui/screens/medicineStats.dart';
 import 'package:flutter_covid_dashboard_ui/screens/myOrders.dart';
 import 'package:flutter_covid_dashboard_ui/screens/orderStatsScreen.dart';
+import 'package:flutter_covid_dashboard_ui/util/auth.dart';
+import 'package:flutter_covid_dashboard_ui/util/statefulWidget.dart';
 import 'package:flutter_covid_dashboard_ui/widgets/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -17,16 +19,46 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String _country = 'IN';
+  StateModel appState;
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    appState = StateWidget.of(context).state;
+    var sname, dname, mname, vname, gsname, sId, dId, mId, vId, gsId;
+    try {
+      sname = appState?.locationName['sname'] ?? 'Pick a place';
+      dname = appState?.locationName['dname'] ?? 'Pick a place';
+      mname = appState?.locationName['mname'] ?? 'Pick a place';
+      vname = appState?.locationName['vname'] ?? 'Pick a place';
+      gsname = appState?.locationName['gsname'] ?? 'Pick a place';
+      sId = appState?.locationName['sId'] ?? 'Pick a place';
+      dId = appState?.locationName['dId'] ?? 'Pick a place';
+      mId = appState?.locationName['mId'] ?? 'Pick a place';
+      vId = appState?.locationName['vId'] ?? 'Pick a place';
+      gsId = appState?.locationName['gsId'] ?? 'Pick a place';
+    } catch (e) {}
+
+    // print('value are ${dname}');
+    // print('value are ${mname}');
+    // print('value are ${vname}');
+    // print('value are ${gsname}');
+    // print('value are  1 ${sId}');
+    // print('value are mm 2 ${dId}');
+    // print('value are mm3 ${mId}');
+    // print('value are mm4 ${vId}');
+    // print('value are mm5 ${gsId}');
+    //  var locationName = appState?.sname ?? 'Pick a place';
+
+    // var x = Auth.getUserLocationLocal();
+    // print('whats this ${x}');
+    // locationName = x;
     return Scaffold(
       appBar: CustomAppBar(),
       body: CustomScrollView(
         physics: ClampingScrollPhysics(),
         slivers: <Widget>[
-          _buildHeader(screenHeight),
+          _buildHeader(screenHeight, sname),
           _buildPreventionTips(screenHeight),
           _buildYourOwnTest(screenHeight),
         ],
@@ -34,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SliverToBoxAdapter _buildHeader(double screenHeight) {
+  SliverToBoxAdapter _buildHeader(double screenHeight, locationName) {
     return SliverToBoxAdapter(
       child: Container(
         padding: const EdgeInsets.all(20.0),
@@ -52,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'COVID-RAKSHAK',
+                  'COVID-RAKSHAK ${locationName}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 25.0,
@@ -60,7 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 CountryDropdown(
-                  countries: [ 'IN',],
+                  countries: [
+                    'IN',
+                  ],
                   country: _country,
                   onChanged: (val) => setState(() => _country = val),
                 ),
@@ -178,76 +212,75 @@ class _HomeScreenState extends State<HomeScreen> {
                   .toList(),
             ),
             Container(
-                    padding: EdgeInsets.symmetric( vertical: 40),
-        
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.white,
-                    ),
-                    child: Column(children: [
-                      // mainCard(context),
-                      SizedBox(height: 40),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              onTap: (){
-                                 Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => VaccineOrderForm()
-                                    ));
-                              },
-                              child: regularCard('assets/upload.svg', 'Upload Data')),
-                            InkWell(
-                                onTap: (){
-                                 Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => MyOrders()
-                                    ));
-                              },
-                              child: regularCard(
-                                  'assets/virus.svg', 'MyOrders'),
-                            ),
-                            regularCard('assets/upload.svg', 'Delivery'),
-                          ]),
-                      SizedBox(height: 20),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              onTap: (){
-                                 Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => MedicineOrderStats()
-                                    ));
-                              },
-                              child: regularCard('assets/trend.svg', 'Stastics')),
-                            InkWell(
-                              onTap: (){
-                                    Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => OrderStatsScreen()
-                                    ));
-                              },
-                              child: regularCard('assets/facemask.svg', 'Demand Stats')),
-                            regularCard('assets/phone.svg', 'Raw Material'),
-                          ])
-                          ,
-                          
+              padding: EdgeInsets.symmetric(vertical: 40),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Colors.white,
+              ),
+              child: Column(children: [
+                // mainCard(context),
+                SizedBox(height: 40),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        VaccineOrderForm()));
+                          },
+                          child:
+                              regularCard('assets/upload.svg', 'Upload Data')),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      MyOrders()));
+                        },
+                        child: regularCard('assets/virus.svg', 'MyOrders'),
+                      ),
+                      regularCard('assets/upload.svg', 'Delivery'),
                     ]),
-                  ),
+                SizedBox(height: 20),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        MedicineOrderStats()));
+                          },
+                          child: regularCard('assets/trend.svg', 'Stastics')),
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        OrderStatsScreen()));
+                          },
+                          child: regularCard(
+                              'assets/facemask.svg', 'Demand Stats')),
+                      regularCard('assets/phone.svg', 'Raw Material'),
+                    ]),
+              ]),
+            ),
           ],
         ),
       ),
     );
   }
- Container mainCard(context) {
+
+  Container mainCard(context) {
     return Container(
         // padding: EdgeInsets.only(left: 20, right: 20, top: 20),
         decoration: BoxDecoration(
@@ -281,6 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ]));
   }
+
   SizedBox regularCard(String iconName, String cardLabel) {
     return SizedBox(
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -294,7 +328,11 @@ class _HomeScreenState extends State<HomeScreen> {
             //       color: Colors.grey[300], offset: Offset.zero, blurRadius: 20)
             // ],
           ),
-          child: SvgPicture.asset(iconName, width: 50, color:  Palette.primaryColor,),
+          child: SvgPicture.asset(
+            iconName,
+            width: 50,
+            color: Palette.primaryColor,
+          ),
         ),
         SizedBox(height: 5),
         Text(cardLabel,
@@ -303,7 +341,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ]),
     );
   }
-    TextStyle textStyle(double size, FontWeight fontWeight, Color colorName) =>
+
+  TextStyle textStyle(double size, FontWeight fontWeight, Color colorName) =>
       TextStyle(
         color: colorName,
         fontSize: size,
@@ -319,7 +358,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(10.0),
         height: screenHeight * 0.15,
         decoration: BoxDecoration(
-         color: Color(0xFFAD9FE4),
+          color: Color(0xFFAD9FE4),
           gradient: LinearGradient(
             colors: [Color(0xFFAD9FE4), Palette.primaryColor],
           ),
